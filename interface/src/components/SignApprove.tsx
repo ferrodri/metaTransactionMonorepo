@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import { useState } from 'react';
 import {
     useAccount,
     useContractReads,
@@ -6,12 +7,15 @@ import {
     useNetwork,
     useSigner,
 } from 'wagmi';
+import { useIsMounted } from '../hooks/useIsMounted';
 import { useTesseractProxyContract } from '../hooks/useTesseractProxyContract';
 import TESSERACTPROXYABI from '../shared/abi/TesseractProxy.json';
 
 export function SignApprove(): JSX.Element {
     const amount = '5000000000000000000';
     const spender = '0x0000000000000000000000000000000000000064';
+    const [loading, setLoading] = useState<boolean>(false);
+    const isMounted = useIsMounted();
     const TesseractProxyContract = useTesseractProxyContract();
     const { address } = useAccount();
     const { data: signer } = useSigner();
@@ -45,7 +49,7 @@ export function SignApprove(): JSX.Element {
         ],
         watch: true,
     });
-    const allowance = data?.[0] || '0';
+    const allowance = Number(data?.[0] || 0);
     const tokenName = data?.[1];
     const version = data?.[2];
 
@@ -81,21 +85,25 @@ export function SignApprove(): JSX.Element {
                 sigV,
             ],
         });
+        setLoading(true);
         await tx.wait();
+        setLoading(false);
     }
 
     function createSignature(): {
-            types: Record<string, { name: string; type: string }[]>,
-            domain: {
-                name: string;
-                version: string;
-                salt: string;
-                verifyingContract: string;
-            },
-            message: { 
-                nonce: number; from: string; functionSignature: string 
-            }} 
-    {
+        types: Record<string, { name: string; type: string }[]>;
+        domain: {
+            name: string;
+            version: string;
+            salt: string;
+            verifyingContract: string;
+        };
+        message: {
+            nonce: number;
+            from: string;
+            functionSignature: string;
+        };
+    } {
         const message = {
             nonce: 0,
             from: address,
@@ -137,13 +145,26 @@ export function SignApprove(): JSX.Element {
     }
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <span className="font-bold mb-16">Current allowance: {allowance.toString()}</span>
-            <button 
-                onClick={signedTypeData} 
-                className="border-1 rounded-lg font-bold bg-blue-900 px-2 py-5 w-fit">
-                Sign gassless approve
-            </button>
-        </div>
+        <>
+            {isMounted && (
+                <div className="flex flex-col items-center justify-center">
+                    {loading ? (
+                        <div className="mb-16 flex items-center justify-center">
+                            <div className="h-16 w-16 animate-spin rounded-full border-t-4 border-blue-500"></div>
+                        </div>
+                    ) : (
+                        <span className="mb-16 font-bold">
+                            Current allowance: {allowance}
+                        </span>
+                    )}
+                    <button
+                        onClick={signedTypeData}
+                        className="border-1 w-fit rounded-lg bg-blue-900 px-2 py-5 font-bold"
+                    >
+                        Sign gassless approve
+                    </button>
+                </div>
+            )}
+        </>
     );
 }
