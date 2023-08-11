@@ -103,6 +103,7 @@ export function SignApprove(): JSX.Element {
             from: string;
             functionSignature: string;
         };
+        // eslint-disable-next-line indent
     } {
         const message = {
             nonce: 0,
