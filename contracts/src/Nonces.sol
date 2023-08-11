@@ -5,7 +5,7 @@ abstract contract Nonces {
     mapping(address => uint256) internal _nonces;
 
     /**
-     * @notice Nonces for permit / meta-transactions
+     * @notice Nonces for meta-transactions
      * @param owner Token owner's address
      * @return Next nonce
      */

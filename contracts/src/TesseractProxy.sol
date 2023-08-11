@@ -17,11 +17,18 @@ contract TesseractProxy is EIP712Domain, Nonces {
         bytes functionSignature;
     }
 
+    string public name = "TesseractProxy";
+    string public constant EIP712_VERSION = "1";
+
     // keccak256("MetaTransaction(uint256 nonce,address from,bytes functionSignature)")
     bytes32 public constant META_TRANSACTION_TYPEHASH =
         0x23d10def3caacba2e4042e0c75d44a42d2558aabcf5ce951d0642a8032e1e653;
 
     mapping(address => mapping(address => uint256)) public allowance;
+
+    constructor() {
+        _setDomainSeparator(name, EIP712_VERSION);
+    }
 
     function approve(address owner, address spender, uint256 amount) public virtual returns (bool) {
         allowance[owner][spender] = amount;

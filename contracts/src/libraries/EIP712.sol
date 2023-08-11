@@ -34,18 +34,18 @@ library EIP712 {
     /**
      * @notice Recover signer's address from a EIP712 signature
      * @param domainSeparator   Domain separator
-     * @param v                 v of the signature
-     * @param r                 r of the signature
-     * @param s                 s of the signature
+     * @param sigV              sigV of the signature
+     * @param sigR              sigR of the signature
+     * @param sigS              sigS of the signature
      * @param typeHashAndData   Type hash concatenated with data
      * @return Signer's address
      */
-    function recover(bytes32 domainSeparator, uint8 v, bytes32 r, bytes32 s, bytes memory typeHashAndData)
+    function recover(bytes32 domainSeparator, uint8 sigV, bytes32 sigR, bytes32 sigS, bytes memory typeHashAndData)
         internal
         pure
         returns (address)
     {
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, keccak256(typeHashAndData)));
-        return ECRecover.recover(digest, v, r, s);
+        return ECRecover.recover(digest, sigV, sigR, sigS);
     }
 }

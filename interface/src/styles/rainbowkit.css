@@ -1,0 +1,87 @@
+[data-rk] {
+    --rk-colors-accentColor: #ffffff !important;
+    --rk-colors-accentColorForeground: #000000 !important;
+    --rk-colors-modalTextSecondary: #bfbfbf !important;
+    --rk-fonts-body: var(--font-primary) !important;
+    --rk-blurs-modalOverlay: blur(4px) !important;
+    --rk-colors-modalBackdrop: rgb(255 255 255 / 0.2) !important;
+    --rk-colors-modalBackground: #000000 !important;
+    --rk-shadows-dialog: none !important;
+    /* Connect button */
+    --rk-radii-actionButton: 0 !important;
+    --rk-radii-connectButton: 0 !important;
+    /* Border radius */
+    --rk-radii-modal: 0 !important;
+    --rk-radii-modalMobile: 0 !important;
+    /* Border color */
+    --rk-colors-generalBorder: #000000 !important;
+    --rk-colors-generalBorderDim: #000000 !important;
+    /* Close button */
+    --rk-colors-closeButton: #bfbfbf !important;
+    --rk-colors-closeButtonBackground: transparent !important;
+    /*  Menu item */
+    --rk-colors-menuItemBackground: #151515 !important;
+    --rk-radii-menuButton: 0 !important;
+    /*  Success */
+    --rk-colors-connectionIndicator: #7fd271 !important;
+    /* Errors */
+    --rk-colors-error: #ff7648 !important;
+    --rk-colors-connectButtonBackgroundError: #ff7648 !important;
+}
+
+/*  Modal container */
+.iekbcc0.ju367va.ju367vz {
+    max-height: 484px !important;
+}
+
+/* Modal border */
+.ju367vv {
+    border: none !important;
+    border-width: 0px !important;
+}
+
+/* Close Button */
+.ju367vs {
+    border-radius: 0.375rem !important;
+}
+.ju367vs:hover {
+    background: #404040 !important;
+    color: #ffffff !important;
+}
+
+/* Titles */
+.ju367v1d {
+    font-family: var(--font-secondary) !important;
+    font-weight: 400 !important;
+    font-size: 20px !important;
+}
+
+/* Main title */
+#rk_connect_title {
+    font-size: 28px !important;
+}
+
+/* Main title container */
+.iekbcc0.ju367v75.ju367v7q.ju367v3c.ju367v6f.ju367v81 {
+    padding: 0 0 0 23px !important;
+}
+
+/* Subtitle container */
+.iekbcc0.ju367v3i.ju367v43.ju367v2y.ju367v4t {
+    margin-top: 24px !important;
+}
+
+/* Hide empty block to the left of the main title */
+.iekbcc0.ju367v3n.ju367v8y {
+    display: none;
+}
+
+/* Margin top */
+.ju367v4t {
+    margin-top: 32px !important;
+}
+
+/* Body text */
+.ju367v1b {
+    font-weight: 400 !important;
+}

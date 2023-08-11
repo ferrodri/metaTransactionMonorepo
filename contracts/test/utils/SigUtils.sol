@@ -1,7 +1,7 @@
 // solhint-disable func-param-name-mixedcase
 // solhint-disable var-name-mixedcase
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.21;
+pragma solidity =0.8.21;
 
 contract SigUtils {
     struct MetaTransaction {
@@ -25,7 +25,6 @@ contract SigUtils {
         return keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, _getStructHash(_metaTransaction)));
     }
 
-    /// computes the hash of a permit
     function _getStructHash(MetaTransaction memory _metaTransaction) internal pure returns (bytes32) {
         return keccak256(
             abi.encode(

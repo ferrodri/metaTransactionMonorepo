@@ -1,0 +1,17 @@
+@tailwind base;
+@layer base {
+    html,
+    body {
+        @apply h-full w-full bg-black text-white;
+        @apply selection:bg-white selection:text-black;
+    }
+}
+
+@tailwind components;
+@layer components {
+    .container-content {
+        @apply mx-auto w-full px-12;
+    }
+}
+
+@tailwind utilities;

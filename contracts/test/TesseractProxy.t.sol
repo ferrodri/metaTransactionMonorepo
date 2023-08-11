@@ -39,9 +39,9 @@ contract TesseractProxyTest is Test {
 
         vm.prank(signer);
 
-        (uint8 v, bytes32 r, bytes32 s) = vm.sign(signerPrivateKey, digest);
+        (uint8 sigV, bytes32 sigR, bytes32 sigS) = vm.sign(signerPrivateKey, digest);
 
-        tesseractProxy.tesseractApprove(metaTransaction.from, metaTransaction.functionSignature, r, s, v);
+        tesseractProxy.tesseractApprove(metaTransaction.from, metaTransaction.functionSignature, sigR, sigS, sigV);
 
         assertEq(tesseractProxy.allowance(signer, spender), amount);
     }
