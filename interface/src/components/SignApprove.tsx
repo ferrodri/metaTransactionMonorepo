@@ -9,7 +9,9 @@ import {
 } from 'wagmi';
 import { useIsMounted } from '../hooks/useIsMounted';
 import { useTesseractProxyContract } from '../hooks/useTesseractProxyContract';
+import { useUSDCContract } from '../hooks/useUSDCContract';
 import TESSERACTPROXYABI from '../shared/abi/TesseractProxy.json';
+import USDCABI from '../shared/abi/USDC.json';
 
 export function SignApprove(): JSX.Element {
     const amount = '5000000000000000000';
@@ -17,6 +19,7 @@ export function SignApprove(): JSX.Element {
     const [loading, setLoading] = useState<boolean>(false);
     const isMounted = useIsMounted();
     const TesseractProxyContract = useTesseractProxyContract();
+    const USDCContract = useUSDCContract();
     const { address } = useAccount();
     const { data: signer } = useSigner();
     const { chain } = useNetwork();
@@ -31,36 +34,44 @@ export function SignApprove(): JSX.Element {
     const { data } = useContractReads({
         contracts: [
             {
-                address: TesseractProxyContract,
-                abi: TESSERACTPROXYABI,
+                address: USDCContract,
+                abi: USDCABI,
                 functionName: 'allowance',
                 args: [address, spender],
             },
             {
-                address: TesseractProxyContract,
-                abi: TESSERACTPROXYABI,
+                address: USDCContract,
+                abi: USDCABI,
                 functionName: 'name',
             },
             {
-                address: TesseractProxyContract,
-                abi: TESSERACTPROXYABI,
+                address: USDCContract,
+                abi: USDCABI,
                 functionName: 'EIP712_VERSION',
+            },
+            {
+                address: USDCContract,
+                abi: USDCABI,
+                functionName: 'nonces',
+                args: [address],
             },
         ],
         watch: true,
     });
-    const allowance = Number(data?.[0] || 0);
+    const allowance = Number(data?.[0]);
     const tokenName = data?.[1];
     const version = data?.[2];
+    const nonce = data?.[3];
 
     function getFunctionSignature(): string {
         const iface = new ethers.utils.Interface([
-            'function approve(address,address,uint256)',
+            'function approve(address,uint256)',
         ]);
         return iface.encodeFunctionData('approve', [
-            address,
             spender,
-            ethers.BigNumber.from(amount),
+            allowance > 0
+                ? ethers.BigNumber.from(0)
+                : ethers.BigNumber.from(amount),
         ]);
     }
 
@@ -70,7 +81,6 @@ export function SignApprove(): JSX.Element {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const flatSig = await signer._signTypedData(domain, types, message);
-
         const {
             v: sigV,
             r: sigR,
@@ -106,7 +116,7 @@ export function SignApprove(): JSX.Element {
         // eslint-disable-next-line indent
     } {
         const message = {
-            nonce: 0,
+            nonce: nonce,
             from: address,
             functionSignature: getFunctionSignature(),
         };
@@ -135,7 +145,7 @@ export function SignApprove(): JSX.Element {
                     ethers.utils.hexlify(chain?.id || 137),
                     32
                 ),
-                verifyingContract: TesseractProxyContract,
+                verifyingContract: USDCContract,
             },
             message: message,
         };
