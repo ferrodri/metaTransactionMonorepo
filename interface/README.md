@@ -1,4 +1,4 @@
-Please use Mumbai chain, contract is deployed and verified here: ``0x09c733b8b2a5fb8f33110c52cb22eecd88c06e69``
+Please use Mumbai chain, contract is deployed and verified here: `0x6a61a1231a3118dff17b31e4fb6271deb7df2ee4`
 
 ## Node version
 
